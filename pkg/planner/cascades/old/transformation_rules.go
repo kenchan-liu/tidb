@@ -26,6 +26,7 @@ import (
 	"github.com/pingcap/tidb/pkg/planner/core/base"
 	"github.com/pingcap/tidb/pkg/planner/core/operator/logicalop"
 	ruleutil "github.com/pingcap/tidb/pkg/planner/core/rule/util"
+	rule "github.com/pingcap/tidb/pkg/planner/core/rule"
 	"github.com/pingcap/tidb/pkg/planner/memo"
 	"github.com/pingcap/tidb/pkg/planner/pattern"
 	"github.com/pingcap/tidb/pkg/planner/planctx"
@@ -2204,7 +2205,7 @@ func (*TransformAggToProj) Match(expr *memo.ExprIter) bool {
 // This rule tries to convert agg to proj.
 func (*TransformAggToProj) OnTransform(old *memo.ExprIter) (newExprs []*memo.GroupExpr, eraseOld bool, eraseAll bool, err error) {
 	agg := old.GetExpr().ExprNode.(*logicalop.LogicalAggregation)
-	if ok, proj := plannercore.ConvertAggToProj(agg, old.GetExpr().Schema()); ok {
+	if ok, proj := rule.ConvertAggToProj(agg, old.GetExpr().Schema()); ok {
 		newProjExpr := memo.NewGroupExpr(proj)
 		newProjExpr.SetChildren(old.GetExpr().Children...)
 		return []*memo.GroupExpr{newProjExpr}, true, false, nil
