@@ -74,7 +74,7 @@ const initialMaxCores uint64 = 10000
 
 var optRuleList = []base.LogicalOptRule{
 	&GcSubstituter{},
-	&ColumnPruner{},
+	&rule.ColumnPruner{},
 	&ResultReorder{},
 	&rule.BuildKeySolver{},
 	&DecorrelateSolver{},
@@ -95,7 +95,7 @@ var optRuleList = []base.LogicalOptRule{
 	&PushDownTopNOptimizer{},
 	&SyncWaitStatsLoadPoint{},
 	&JoinReOrderSolver{},
-	&ColumnPruner{}, // column pruning again at last, note it will mess up the results of buildKeySolver
+	&rule.ColumnPruner{}, // column pruning again at last, note it will mess up the results of buildKeySolver
 	&PushDownSequenceSolver{},
 	&ResolveExpand{},
 }
